@@ -118,7 +118,15 @@ def database():
 
 
 
-
+def main():
+    songs = database()
+    for song in songs:
+      print song.getName(), "\t", song.getArtist()
+##      uncomment below for parsons contour of U-D-R
+##      i = 1   
+##      while(song.getTrack(i) != None):
+##        print "Track" , str(i), ": ", song.getTrack(i)
+##        i+=1
             
         
 
