@@ -6,4 +6,3 @@ https://docs.google.com/document/d/1f48e_92053BPIwvudWbjIDQWzJ9GqYXgDHZZ0UIz05E/
 Save as Group20_Log_YYMMDDtttt
 
 
-contour() is a mess and doesn't produce accurate results as of now
