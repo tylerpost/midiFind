@@ -1,16 +1,20 @@
-#Find if a substring "pat" exists in a string "txt", returns a boolean
+#Returns the number of occurences of substring "pat" in "txt"
+#Non-fuzzy
+#Uses DFAs and the KMT algorithm
+#Still figuring out error-handling
+
 def substring(txt,pat):
-    i=j=0
-    N=len(txt)
-    M=len(pat)
     dfa=makeDFA(pat)
-    while (i<N)and(j<M):
+    N=len(txt)
+    M=len(pat) #accept state of DFA
+    j = 0 #start state of txt in DFA
+    occ = 0 #occurences of pat in txt
+    for i in range (0,N):
         j = dfa[index(txt[i])][j]
-        i += 1
-    if (j==M):
-        return True
-    else:
-        return False
+        if (j==M):
+            occ = occ + 1
+            j = 0 #if substring is found, reset back to first state
+    return occ
 
 #Build DFA from pattern "pat" using alphabet {u/a,s,d}*
 def makeDFA(pat):
@@ -38,7 +42,17 @@ def index(char):
 
 #Testing   
 def main():
-    print substring("suuuuu","d")
-    print substring("ssssuuuuususususususudududududdddd","sususususususu")
-    print substring("ssssuuuuususususususudududududdddd","susususususu")
+    print "Start"
+    print "Number of \"u\" in \"suuuuu\" should be 5" 
+    print substring("suuuuu","u")
+    print "Number of \"d\" in \"ssssuuuuususususususudududududdddd\" should be 9" 
+    print substring("ssssuuuuususususususudududududdddd","d")
+    print "Number of \"asd\" in \"assasdasdasdasasas\" should be 3" 
+    print substring("assasdasdasdasasas","asd")
+    print "Number of \"dududusss\" in \"dududussddud\" should be 0" 
+    print substring("dududussddud","dududusss")
+    print "Number of \"s\" in \"ssaaddsudufuuuu\" should throw an error"
+    print substring("ssaddsudufuuuu","s")
+    print "End"
 
+main()
