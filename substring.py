@@ -51,8 +51,6 @@ def main():
     print substring("assasdasdasdasasas","asd")
     print "Number of \"dududusss\" in \"dududussddud\" should be 0" 
     print substring("dududussddud","dududusss")
-    print "Number of \"s\" in \"ssaaddsudufuuuu\" should throw an error"
-    print substring("ssaddsudufuuuu","s")
     print "End"
 
 main()
