@@ -3,7 +3,7 @@
 #Uses DFAs and the KMT algorithm
 #Still figuring out error-handling
 
-def substring(txt,pat):
+def substringSearch(txt,pat):
     dfa=makeDFA(pat)
     N=len(txt)
     M=len(pat) #accept state of DFA
@@ -44,13 +44,13 @@ def index(char):
 def main():
     print "Start"
     print "Number of \"u\" in \"suuuuu\" should be 5" 
-    print substring("suuuuu","u")
+    print substringSearch("suuuuu","u")
     print "Number of \"d\" in \"ssssuuuuususususususudududududdddd\" should be 9" 
-    print substring("ssssuuuuususususususudududududdddd","d")
+    print substringSearch("ssssuuuuususususususudududududdddd","d")
     print "Number of \"asd\" in \"assasdasdasdasasas\" should be 3" 
-    print substring("assasdasdasdasasas","asd")
+    print substringSearch("assasdasdasdasasas","asd")
     print "Number of \"dududusss\" in \"dududussddud\" should be 0" 
-    print substring("dududussddud","dududusss")
+    print substringSearch("dududussddud","dududusss")
     print "End"
 
 main()
