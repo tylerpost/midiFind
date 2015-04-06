@@ -1,4 +1,4 @@
-import pygame, sys, substringSearch
+import pygame, sys, substringSearch, midiSong
 import pygame.font
 from pygame.locals import *
 from enum import Enum
@@ -7,9 +7,11 @@ from enum import Enum
 class MidiFind():
 
 	def performRecognition(self,contour):
-		str(contour).replace('a','u')
-		substringSearch.makeDFA(contour)
-		print(midiSong.main())
+		contour = contour.replace('A','u').replace('S','r').replace('D','d')
+
+		print(contour)
+
+		print(midiSong.main(contour))
 
 
 	def __init__(self):
@@ -154,8 +156,6 @@ class MidiFind():
 					if (event.key == 8):
 						self.inputcontour = self.inputcontour[:-1]
 
-					print(event.key)
-
 					self.needsRedraw = True
 
 					#97 = A
@@ -181,7 +181,6 @@ class MidiFind():
 
 
 		elif page == Page.recognize:
-			print("test")
 			#Set the background for our recognize page
 			backImage = pygame.image.load('./assets/recognition.png')
 			#Set the buttons

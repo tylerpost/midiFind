@@ -20,14 +20,14 @@ class Song():
 
 
 
-def main():
+def main(contour):
     songsFound = []
     start = time.time()
     with open("midiTracks.csv", newline = '') as file:
         contents = csv.reader(file)
         for row in contents:
             for i in range(2,len(row)):
-                stringsFound = substringSearch(row[i], "rrrrrruuur")
+                stringsFound = substringSearch(row[i], contour)
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], stringsFound))
 
@@ -38,4 +38,4 @@ def main():
     end = time.time()
     print( end-start)
 
-main()
+
