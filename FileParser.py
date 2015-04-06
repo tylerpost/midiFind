@@ -4,8 +4,8 @@
 
 import mido
 from mido import midifiles
-import string
-import os
+import string, os, csv
+
 
 '''
 Used to store Melodic Contours of each song
@@ -28,7 +28,8 @@ class Song():
         try:
             return self.tracks[n]
         except:
-            return None
+            return 'pls'
+            #return None
 
     def addTrack(self, track):
         self.tracks.append(track)
@@ -87,15 +88,16 @@ def contour(midiFile, artist):
 Opens the database 'MIDI FILES' and reads each file
 Creates a list that stores a song object for each MidiFile
 '''
-def database():
+def createSongList():
     songList = []
     
-    for root, dirs, files in os.walk("MIDI FILES\Pearl Jam"):
+    for root, dirs, files in os.walk("MIDI FILES"):
         for name in files:
             artist = root.split('\\')[-1]
             #TODO: modify how the artist appears
             fileLoc = root  + "\\" + name
             try:
+                print artist, fileLoc
                 songList.append(contour(fileLoc, artist))
             except:
                 pass #some files throw mido errors, shamefully skip over them
@@ -105,11 +107,29 @@ def database():
 
 
 
+'''
+Writes the songs and all of their information to midiTracks.csv
+Artist, Song name, track 1 contour, ... , track n contour
+'''
+def writeCSV(songList):
+    with open('midiTracks.csv', 'wb') as f:
+        writer = csv.writer(f)
+        for song in songList:
+            temp = [song.getArtist(), song.getName()]
+            temp.extend(list(song.getTrack(i) for i in range(song.trackCount())))
+            temp[:] = (value for value in temp if value != '')
+            #print temp
+            writer.writerow(temp)
+            
+            
+
+
 
 def main():
-    songs = database()
-    for song in songs:
-      print song.getName(), "\t", song.getArtist()
+    songs = createSongList()
+
+    writeCSV(songs)
+    
 ##      uncomment below for parsons contour of U-D-R
 ##      i = 1   
 ##      while(song.getTrack(i) != None):
