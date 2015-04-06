@@ -11,7 +11,14 @@ class MidiFind():
 
 		print(contour)
 
-		print(midiSong.main(contour))
+		# print(midiSong.main(contour))
+
+		song1 = midiSong.Song("Michael Jackson", "Billy Jean", 5)
+		song2 = midiSong.Song("Weezer", "Say it Ain't So", 3)
+		song3 = midiSong.Song("Neil Young", "Helpless", 7)
+
+
+		return [song1, song2, song3]
 
 
 	def __init__(self):
@@ -50,8 +57,11 @@ class MidiFind():
 		self.contourfont = pygame.font.Font("./Assets/Arial.ttf", 42)
 		self.contourfont.set_italic(True)
 		
-		
-		self.contoursurf = self.contourfont.render(self.inputcontour, 1, (0,0,0))
+		#Results stuff
+		self.results = None
+		self.resultsindex = 0
+		self.resultsfont = pygame.font.Font("./Assets/Arial.ttf", 42)
+
 
 
 	def main(self):
@@ -82,15 +92,21 @@ class MidiFind():
 						
 						if (self.menuPage == Page.main):
 							self.menuPage = Page.recognize
+							self.inputcontour = ""
 							self.needsRedraw = True
 
 
 						elif (self.menuPage == Page.recognize):
 							#Perform recognition using the input contour
-							self.performRecognition(self.inputcontour)
-							print("")
+							#Results are saved in an Artist array 
+							self.results = self.performRecognition(self.inputcontour)
+							self.resultsindex = 0
+							self.menuPage = Page.success
+							self.needsRedraw = True
 						elif (self.menuPage == Page.success):
-							print("")
+							#Back to Main
+							self.menuPage = Page.main
+							self.needsRedraw = True
 						elif (self.menuPage == Page.failure):
 							##Failure
 							print("")
@@ -106,8 +122,10 @@ class MidiFind():
 							self.needsRedraw = True
 
 						elif (self.menuPage == Page.success):
-							#Back to Main
-							self.menuPage = Page.main
+							print("Next")
+							#Next was pressed, so increment the resultsindex
+							self.resultsindex += 1
+							self.menuPage = Page.success
 							self.needsRedraw = True
 						elif (self.menuPage == Page.failure):
 							self.menuPage = Page.recognize
@@ -122,7 +140,7 @@ class MidiFind():
 
 					#BUTTON 3 CLICKED
 
-					if pygame.Rect(self.button2.rect).collidepoint(mouse_pos):
+					if pygame.Rect(self.button3.rect).collidepoint(mouse_pos):
 						
 						if (self.menuPage == Page.main):
 							#Exit
@@ -191,9 +209,16 @@ class MidiFind():
 		elif page == Page.success:
 
 			backImage = pygame.image.load('./assets/success.png')
+			#If we still have guesses to go, set button1 to be blank and button2 to be Next
+			if (self.resultsindex == len(self.results)-1):
+				print(len(self.results))
+				self.button1img = pygame.image.load('./assets/done.png')
+				self.button2img = pygame.image.load('./assets/none.png')
 
-			self.button1img = pygame.image.load('./assets/done.png')
-			self.button2img = pygame.image.load('./assets/nexttrack.png')
+			else:
+			#If we're on the last guess, set button1 to be Done and button2 to be blank
+				self.button1img = pygame.image.load('./assets/none.png')
+				self.button2img = pygame.image.load('./assets/nextguess.png')
 			self.button3img = pygame.image.load('./assets/exit.png')
 
 		elif page == Page.failure:
@@ -239,6 +264,17 @@ class MidiFind():
 
 		if (page == Page.help):
 			self.helpcontent.draw(self.screen)
+
+		#Draw the results content if we're on the success screen
+
+		if (page == Page.success):
+			#Create a string for the artist / song to display
+			song = self.results[self.resultsindex]
+			songstring = song.artist+ " - " + song.name
+			#Create a surface for the results text
+			self.resultssurf = self.resultsfont.render(songstring, 1, ((114,114,114)))
+			self.screen.blit(self.resultssurf, (1024/2 - self.resultssurf.get_width()/2, 335))
+
 
 
 		#Draw the input contour if we're on the Recognition screen
