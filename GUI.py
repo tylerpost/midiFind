@@ -1,10 +1,17 @@
-import pygame, sys
+import pygame, sys, substringSearch
 import pygame.font
 from pygame.locals import *
 from enum import Enum
 
 
 class MidiFind():
+
+	def performRecognition(self,contour):
+		str(contour).replace('a','u')
+		substringSearch.makeDFA(contour)
+		print(midiSong.main())
+
+
 	def __init__(self):
 		#Initialize the game
 		pygame.init()
@@ -77,7 +84,8 @@ class MidiFind():
 
 
 						elif (self.menuPage == Page.recognize):
-							##Perform recognition
+							#Perform recognition using the input contour
+							self.performRecognition(self.inputcontour)
 							print("")
 						elif (self.menuPage == Page.success):
 							print("")
