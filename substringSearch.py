@@ -30,7 +30,7 @@ def makeDFA(pat):
 
 #Assign index values to characters in alphabet {u/a,s,d}*
 def index(char):
-    if (char=='s'):
+    if (char=='r'):
         return 0
     elif ((char=='u')or(char=='a')):
         return 1
