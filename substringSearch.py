@@ -9,7 +9,7 @@ def substringSearch(txt,dfa):
     j = 0 #start state of txt in DFA
     occ = 0 #occurences of pat in txt
     for i in range (0,N):
-        print("int: " + str(index(txt[i])) + " " + str(j))
+##        print("int: " + str(index(txt[i])) + " " + str(j))
         j = dfa[index(txt[i])][j]
         if (j==M):
             occ = occ + 1
