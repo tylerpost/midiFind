@@ -26,8 +26,8 @@ def main():
     with open("midiTracks.csv", newline = '') as file:
         contents = csv.reader(file)
         for row in contents:
-            for i in range(2,len(row)):
-                stringsFound = substringSearch(row[i], "rrrrrruuur")
+            for i in range(3,len(row)):
+                stringsFound = substringSearch(row[i], "rduduuurduuuu")
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], stringsFound))
 

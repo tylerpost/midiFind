@@ -4,7 +4,7 @@
 
 import mido
 from mido import midifiles
-import string, os, csv
+import string, os, csv, re
 
 
 '''
@@ -12,24 +12,27 @@ Used to store Melodic Contours of each song
 getTrack() returns None if there is no n'th track for that song
 '''
 class Song():
-    def __init__(self, name, artist):
+    def __init__(self, name, artist, fileloc):
         self.artist = artist
         self.name = name
+        self.fileLocation = fileloc
         self.tracks = []
 
     def getName(self):
-        return self.name;
+        return self.name
 
     def getArtist(self):
         return self.artist
+
+    def getFileLoc(self):
+        return self.fileLocation
 
     ##tracks[0] is empty? confirm for other songs.
     def getTrack(self,n):
         try:
             return self.tracks[n]
         except:
-            return 'pls'
-            #return None
+            return None
 
     def addTrack(self, track):
         self.tracks.append(track)
@@ -44,28 +47,26 @@ Generates a Melodic Contour for each track
 Passes back a new song object
 '''
 def contour(midiFile, artist):
-    name = midiFile.split('\\')[-1]
-    song = Song(name.strip(".mid"), artist)
-
+    name = re.sub(r"\B([A-Z])", r" \1", midiFile.split('\\')[-1].strip(".mid").replace("_", " ")).title()
+    print midiFile
+    song = Song(name, artist, midiFile)
+    print song.getName(), "\t", song.getArtist()
+    
+    
     midiSong = mido.midifiles.MidiFile(midiFile)
 
     for i, track in enumerate(midiSong.tracks): #iterate through every track
         parsonCont = ""
         lastNote = 0
         note = 0
-        notes_in_chord = 1.
+        notfirstNote = False
 
         for s in track:                         #iterate through every note in the track
             if (type(s) == mido.messages.Message): # avoid meta_MetaMessage
-                if (s.__dict__['type'] == 'note_on'):            #avoid control comments
-                    
-                    if(s.__dict__['time'] == 0): #if we're in the same chord 
-                        notes_in_chord += 1                     
-                        note += s.__dict__['note'] #add note sum to chord
+                if (s.__dict__['type'] == 'note_on' and s.__dict__['velocity'] != 0):            #avoid control comments
 
-                    else: #if we are on a new chord 
-                        note /= notes_in_chord 
-                        notes_in_chord = 1  
+                    note = s.__dict__['note']
+                    if(notfirstNote):                   
                        
                         if (note > lastNote):
                             parsonCont += "u"
@@ -74,9 +75,8 @@ def contour(midiFile, artist):
                         elif (note == lastNote):
                             parsonCont += "r"
                         
-                        lastNote = note
-                        note = s.__dict__['note']
-    
+                    lastNote = note
+                    notfirstNote = True
         song.addTrack(parsonCont)
 
     return song
@@ -93,11 +93,12 @@ def createSongList():
     
     for root, dirs, files in os.walk("MIDI FILES"):
         for name in files:
-            artist = root.split('\\')[-1]
+            print root
+            artist = re.sub(r"\B([A-Z])", r" \1", root.split('\\')[-1]).replace("_", " ").title()
             #TODO: modify how the artist appears
             fileLoc = root  + "\\" + name
             try:
-                print artist, fileLoc
+##                print artist, fileLoc
                 songList.append(contour(fileLoc, artist))
             except:
                 pass #some files throw mido errors, shamefully skip over them
@@ -115,7 +116,7 @@ def writeCSV(songList):
     with open('midiTracks.csv', 'wb') as f:
         writer = csv.writer(f)
         for song in songList:
-            temp = [song.getArtist(), song.getName()]
+            temp = [song.getArtist(), song.getName(), song.getFileLoc()]
             temp.extend(list(song.getTrack(i) for i in range(song.trackCount())))
             temp[:] = (value for value in temp if value != '')
             #print temp
