@@ -1,5 +1,5 @@
 import pygame, sys
-
+import pygame.font
 from pygame.locals import *
 from enum import Enum
 
@@ -13,8 +13,6 @@ class MidiFind():
 
 		#Create a screen for us to draw on
 		self.screen = pygame.display.set_mode((1024, 768))
-
-		self.fadescreen = pygame.display.set_mode((1024, 768))
 
 		#Give us a caption
 		pygame.display.set_caption("MidiFind")
@@ -37,6 +35,14 @@ class MidiFind():
 		self.helppage = 1
 		self.buttons.add(self.button1, self.button2, self.button3)
 		self.helpcontent.add(self.helptext)
+
+		#Input contour stuff
+		self.inputcontour = ""
+		self.contourfont = pygame.font.Font("./Assets/Arial.ttf", 42)
+		self.contourfont.set_italic(True)
+		
+		
+		self.contoursurf = self.contourfont.render(self.inputcontour, 1, (0,0,0))
 
 
 	def main(self):
@@ -124,12 +130,38 @@ class MidiFind():
 							#Failure
 							print("")
 
+				#Key was pressed down, only check it if we're on Page.recognize
+
+				if event.type == pygame.KEYUP and self.menuPage == Page.recognize:
+					#A 
+					if (event.key == 97):
+						self.inputcontour = self.inputcontour + "A"
+					#S
+					if (event.key == 115):
+						self.inputcontour = self.inputcontour + "S"	
+					#D
+					if (event.key == 100):
+						self.inputcontour = self.inputcontour + "D"
+					#Backspace
+					if (event.key == 8):
+						self.inputcontour = self.inputcontour[:-1]
+
+					print(event.key)
+
+					self.needsRedraw = True
+
+					#97 = A
+					#115 = S
+					#100 = D
+
 
 			pygame.display.update()
 
 	def redrawPage(self,page):
 		#Switch/case doesn't exist in Python so instead we'll use if / elif
 		
+		print("Redrawing page")
+
 		#Main
 		if page == Page.main:
 			#Set the background for our main page
@@ -202,8 +234,18 @@ class MidiFind():
 			self.helpcontent.draw(self.screen)
 
 
+		#Draw the input contour if we're on the Recognition screen
+
+		if (page == Page.recognize):
+			#Create a surface for the inputted contour
+			self.contoursurf = self.contourfont.render(self.inputcontour, 1, ((114,114,114)))
+			#Blit the surface to the screen
+			self.screen.blit(self.contoursurf, (1024/2 - self.contoursurf.get_width()/2 + 12,335))
+
 		#Draw our buttons
 		self.buttons.draw(self.screen)
+		
+
 
 		#Flip the display
 		pygame.display.flip()
