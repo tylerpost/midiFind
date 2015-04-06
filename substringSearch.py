@@ -2,14 +2,14 @@
 #Non-fuzzy
 #Uses DFAs and the KMT algorithm
 #Still figuring out error-handling
-
-def substringSearch(txt,pat):
-    dfa=makeDFA(pat)
+#call makeDFA(pat) first then feed it into substringSearch
+def substringSearch(txt,dfa):
     N=len(txt)
-    M=len(pat) #accept state of DFA
+    M=len(dfa[0]) #accept state of DFA (length of 
     j = 0 #start state of txt in DFA
     occ = 0 #occurences of pat in txt
     for i in range (0,N):
+        print("int: " + str(index(txt[i])) + " " + str(j))
         j = dfa[index(txt[i])][j]
         if (j==M):
             occ = occ + 1
@@ -31,26 +31,29 @@ def makeDFA(pat):
 
 #Assign index values to characters in alphabet {u/a,s,d}*
 def index(char):
-    if (char=='s'):
+    if (char=='r'):
         return 0
     elif ((char=='u')or(char=='a')):
         return 1
     elif (char=='d'):
         return 2
     else:
-        print "Invalid character encountered!"
+        print(char)
+        print("Invalid character encountered!")
 
 #Testing   
-def main():
-    print "Start"
-    print "Number of \"u\" in \"suuuuu\" should be 5" 
-    print substringSearch("suuuuu","u")
-    print "Number of \"d\" in \"ssssuuuuususususususudududududdddd\" should be 9" 
-    print substringSearch("ssssuuuuususususususudududududdddd","d")
-    print "Number of \"asd\" in \"assasdasdasdasasas\" should be 3" 
-    print substringSearch("assasdasdasdasasas","asd")
-    print "Number of \"dududusss\" in \"dududussddud\" should be 0" 
-    print substringSearch("dududussddud","dududusss")
-    print "End"
+# def main():
+#     print "Start"
+#     print "Number of \"d\" in \"suuuuu\" should be 0" 
+#     dfa1 = makeDFA("d")
+#     print substringSearch("suuuuu",dfa1)
+#     print "Number of \"d\" in \"ssssuuuuususususususudududududdddd\" should be 9" 
+#     print substringSearch("ssssuuuuususususususudududududdddd",dfa1)
+#     print "Number of \"asd\" in \"assasdasdasdasasas\" should be 2" 
+#     dfa2 = makeDFA("asdaa")
+#     print substringSearch("assasdasdasdasasas", dfa2)
+#     print "Number of \"aaaaaaaaaaaaaaads\" in \"aaaaaaaaaaaaaaaadsaaaaaaaaaaaaaadsaaaaaaaaaaaaaaadsadds\" should be 2"
+#     dfa3 = makeDFA("aaaaaaaaaaaaaaads")
+#     print substringSearch("aaaaaaaaaaaaaaaadsaaaaaaaaaaaaaadsaaaaaaaaaaaaaaadsadds",dfa3)
+#     print "End"
 
-main()
