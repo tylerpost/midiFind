@@ -1,15 +1,17 @@
-def stringSort(array): #3-way quicksort for strings
-    quick3sort(array, 0, len(array)-1, 0)
+#3-way quicksort for Songs, by either artist or title
+#let -by- be either "title" or "artist"
+def stringSort(array, by): 
+    quick3sort(array, 0, len(array)-1, 0, by)
 
-def quick3sort(a, lo, hi, charIndex):
+def quick3sort(a, lo, hi, charIndex, by):
     if (hi <= lo):
         return
     lt = lo
     i = lo + 1
     gt = hi
-    pivot = charAt(a[lo], charIndex)
+    pivot = charAt(getattr(a[lo], by), charIndex)
     while i <= gt:
-        t = charAt(a[i], charIndex)
+        t = charAt(getattr(a[i], by), charIndex)
         if t < pivot:
             a[lt],a[i] = a[i],a[lt]
             lt += 1
@@ -32,9 +34,3 @@ def charAt(string, charIndex):
     else: #we've passed the end of the string
         return -1
 
-def main():
-    a = ["hi","hello","apple","banana","apples"]
-    stringSort(a)
-    print a
-
-main()
