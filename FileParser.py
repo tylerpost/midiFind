@@ -27,7 +27,6 @@ class Song():
     def getFileLoc(self):
         return self.fileLocation
 
-    ##tracks[0] is empty? confirm for other songs.
     def getTrack(self,n):
         try:
             return self.tracks[n]
@@ -95,10 +94,9 @@ def createSongList():
         for name in files:
             print root
             artist = re.sub(r"\B([A-Z])", r" \1", root.split('\\')[-1]).replace("_", " ").title()
-            #TODO: modify how the artist appears
             fileLoc = root  + "\\" + name
+            
             try:
-##                print artist, fileLoc
                 songList.append(contour(fileLoc, artist))
             except:
                 pass #some files throw mido errors, shamefully skip over them
@@ -119,7 +117,7 @@ def writeCSV(songList):
             temp = [song.getArtist(), song.getName(), song.getFileLoc()]
             temp.extend(list(song.getTrack(i) for i in range(song.trackCount())))
             temp[:] = (value for value in temp if value != '')
-            #print temp
+
             writer.writerow(temp)
             
             
@@ -128,15 +126,9 @@ def writeCSV(songList):
 
 def main():
     songs = createSongList()
-
     writeCSV(songs)
     
-##      uncomment below for parsons contour of U-D-R
-##      i = 1   
-##      while(song.getTrack(i) != None):
-##        print "Track" , str(i), ": ", song.getTrack(i)
-##        i+=1
-            
+
 
 
 
