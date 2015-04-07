@@ -6,19 +6,24 @@ from enum import Enum
 
 class MidiFind():
 
+	#Uses the midiSong module to find and return a set of songs matching contour
 	def performRecognition(self,contour):
 		contour = contour.replace('A','u').replace('S','r').replace('D','d')
 
-		print(contour)
+		return midiSong.findSong(contour)
+	#Uses pygame's midi library to play the midi file associated with the passed Song object
+	def playSong(self, song):
+		songPath = "./" + song.fileLocation.replace('\\', '/')
 
-		# print(midiSong.main(contour))
+		freq = 44100    # audio CD quality
+		bitsize = -16   # unsigned 16 bit
+		channels = 2    # 1 is mono, 2 is stereo
+		buffer = 1024    # number of samples
+		#Initiate the music module with some standard settings
+		pygame.mixer.init(freq, bitsize, channels, buffer)
 
-		song1 = midiSong.Song("Michael Jackson", "Billy Jean", 5)
-		song2 = midiSong.Song("Weezer", "Say it Ain't So", 3)
-		song3 = midiSong.Song("Neil Young", "Helpless", 7)
-
-
-		return [song1, song2, song3]
+		pygame.mixer.music.load(songPath)
+		pygame.mixer.music.play()
 
 
 	def __init__(self):
@@ -61,9 +66,6 @@ class MidiFind():
 		self.results = None
 		self.resultsindex = 0
 		self.resultsfont = pygame.font.Font("./Assets/Arial.ttf", 42)
-
-
-
 	def main(self):
 		#Game loop
 		while True:
@@ -99,12 +101,20 @@ class MidiFind():
 						elif (self.menuPage == Page.recognize):
 							#Perform recognition using the input contour
 							#Results are saved in an Artist array 
-							self.results = self.performRecognition(self.inputcontour)
-							self.resultsindex = 0
-							self.menuPage = Page.success
-							self.needsRedraw = True
+							if (len(self.inputcontour) > 0):
+								self.results = self.performRecognition(self.inputcontour)
+								#Check if the results isn't None, if it isnt, we found a match
+								if (self.results != None):
+									self.resultsindex = 0
+									self.menuPage = Page.success
+								#Otherwise the search failed
+								else:
+									self.inputcontour = ""
+									self.menuPage = Page.failure
+								self.needsRedraw = True
 						elif (self.menuPage == Page.success):
 							#Back to Main
+							pygame.mixer.music.stop()
 							self.menuPage = Page.main
 							self.needsRedraw = True
 						elif (self.menuPage == Page.failure):
@@ -123,6 +133,8 @@ class MidiFind():
 
 						elif (self.menuPage == Page.success):
 							print("Next")
+							#Stop the music
+							pygame.mixer.music.stop()
 							#Next was pressed, so increment the resultsindex
 							self.resultsindex += 1
 							self.menuPage = Page.success
@@ -180,6 +192,10 @@ class MidiFind():
 					#115 = S
 					#100 = D
 
+				if event.type == pygame.KEYUP and  event.key == K_SPACE and self.menuPage == Page.success:
+					#Stop the music if space is pressed
+					pygame.mixer.music.stop()
+
 
 			pygame.display.update()
 
@@ -194,7 +210,7 @@ class MidiFind():
 			backImage = pygame.image.load('./assets/main.png')
 			#Set our buttons
 			self.button1img = pygame.image.load('./assets/beginrecognition.png')
-			self.button2img = pygame.image.load('./assets/options.png')
+			self.button2img = pygame.image.load('./assets/none.png')
 			self.button3img = pygame.image.load('./assets/exit.png')
 
 
@@ -270,12 +286,13 @@ class MidiFind():
 		if (page == Page.success):
 			#Create a string for the artist / song to display
 			song = self.results[self.resultsindex]
-			songstring = song.artist+ " - " + song.name
+			songstring = song.artist + " - " + song.name + "Occurences:" + str(song.occ)
 			#Create a surface for the results text
 			self.resultssurf = self.resultsfont.render(songstring, 1, ((114,114,114)))
 			self.screen.blit(self.resultssurf, (1024/2 - self.resultssurf.get_width()/2, 335))
 
-
+			#Let's play the song that we found!
+			self.playSong(song)
 
 		#Draw the input contour if we're on the Recognition screen
 

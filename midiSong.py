@@ -1,4 +1,5 @@
 import csv
+import quicksort
 from substringSearch import substringSearch, makeDFA
 
 
@@ -26,7 +27,7 @@ class Song():
 
 def findSong(contour):
     songsFound = []
-    with open("midiTracks.csv", newline = '') as file:
+    with open("midiTracks.csv", newline = '',encoding = "ISO-8859-1") as file:
         contents = csv.reader(file)
         for row in contents:
             for i in range(3,len(row)):
@@ -34,12 +35,16 @@ def findSong(contour):
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
     if len(songsFound) > 0:
+        songsFound = quicksort.quicksort(songsFound)
         return songsFound
     return None
     
 
 ##    for song in songsFound:
 ##        print(song.name, "\t", song.artist, "\t", song.occ)
-
-
-
+#Blind Melon - No Rain - SSSSSAAADDDSS
+#Green Day - Good Riddance - SSAADDSADDA
+#Blink - Adams Song - AADDAADDAAADD
+#Beck - Jackass - DASADDDASADADSSADDDS
+#durudddurud udurudddurudurrdrrruurduuudddudduudrdruudddduurduruddduudrudurudddudurrdrruurduuddddudduudrdruurddddudurudddurududurudddurudurrdrrruurduuudddudduudrdruudddd
+#DASADDDASAD ADASADDDA

@@ -3,6 +3,7 @@ import random
 def quicksort(array):
     random.shuffle(array)
     sort(array, 0, len(array)-1)
+    return array
 
 def sort(a, lo, hi):
     if hi <= lo:
@@ -12,14 +13,14 @@ def sort(a, lo, hi):
     sort(a, p+1, hi) #recursively sort right half
     
 def partition(a, lo, hi):
-    pivot = a[lo].getOcc() #take first item to be pivot
+    pivot = a[lo].occ #take first item to be pivot
     i = lo+1 #start examining items after the first item
     j = hi
     done = False
     while not done:
-        while a[i].getOcc() < pivot and i < hi:
+        while a[i].occ < pivot and i < hi:
             i += 1
-        while a[j].getOcc() > pivot and j > lo:
+        while a[j].occ > pivot and j > lo:
             j -= 1
         if j <= i:
             done = True
