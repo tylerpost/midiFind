@@ -1,5 +1,7 @@
 #sorts Song array by occurences --> uses getOcc()
+from midiSong import Song
 import random
+
 def quicksort(array):
     random.shuffle(array)
     sort(array, 0, len(array)-1)
@@ -29,3 +31,14 @@ def partition(a, lo, hi):
     a[lo],a[j] = a[j],a[lo] #put partitioning item in place
     return j #return index of partitioning item
 
+def main():
+    songs = [Song("","","",1),Song("","","",5),Song("","","",3)]
+    for s in songs:
+        print(s.occ)
+    quicksort(songs)
+    print("Sorted")
+    for s in songs:
+        print(s.occ)
+    print("Done")
+
+main()

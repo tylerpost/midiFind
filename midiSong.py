@@ -29,9 +29,10 @@ def findSong(contour):
     songsFound = []
     with open("midiTracks.csv", newline = '',encoding = "ISO-8859-1") as file:
         contents = csv.reader(file)
+        dfa = makeDFA(contour)
         for row in contents:
             for i in range(3,len(row)):
-                stringsFound = substringSearch(row[i], makeDFA(contour))
+                stringsFound = substringSearch(row[i], dfa)
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
     if len(songsFound) > 0:
