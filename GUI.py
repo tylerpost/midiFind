@@ -1,4 +1,4 @@
-import pygame, sys, substringSearch, midiSong
+import pygame, sys, substringSearch, quicksort, midiSong
 import pygame.font
 from pygame.locals import *
 from enum import Enum
@@ -10,7 +10,7 @@ class MidiFind():
 	def performRecognition(self,contour):
 		contour = contour.replace('A','u').replace('S','r').replace('D','d')
 
-		return midiSong.findSong(contour)
+		return quicksort(midiSong.findSong(contour))
 	#Uses pygame's midi library to play the midi file associated with the passed Song object
 	def playSong(self, song):
 		songPath = "./" + song.fileLocation.replace('\\', '/')
