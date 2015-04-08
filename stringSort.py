@@ -1,24 +1,7 @@
 #3-way quicksort for Songs, by either artist or title
 #let -by- be either "title" or "artist"
 
-class Song():
-    def __init__(self,  artist,name,fileLoc, occurances):
-        self.artist = artist
-        self.name = name
-        self.fileLocation = fileLoc
-        self.occ = occurances
-
-        def getName(self):
-            return self.name
-
-        def getArtist(self):
-            return self.artist
-
-        def getFileLoc(self):
-            return self.fileLocation
-
-        def getOcc(self):
-            return self.occ
+from midiSong import Song
         
 def stringSort(array, by): 
     quick3sort(array, 0, len(array)-1, 0, by)
