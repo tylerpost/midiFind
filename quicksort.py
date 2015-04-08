@@ -1,5 +1,6 @@
-#sorts Song array by occurences --> uses getOcc()
-import random
+#sorts Song array by occurences --> uses Song.occ
+import random, sys
+sys.setrecursionlimit(100)
 from midiSong import Song
 
 def quicksort(array):
@@ -33,10 +34,10 @@ def partition(a, lo, hi):
     return j #return index of partitioning item
 
 
-##def main():
-##    songs = [Song("","","",1),Song("","","",5),Song("","","",3),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1)]
-##    quicksort(songs)
-##    for s in songs:
-##        print(s.occ)
-##    print("Done")
-##main()
+def main():
+    songs = [Song("","","",1),Song("","","",5),Song("","","",3),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1)]
+    quicksort(songs)
+    for s in songs:
+        print(s.occ)
+    print("Done")
+main()
