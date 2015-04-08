@@ -9,8 +9,15 @@ class MidiFind():
 	#Uses the midiSong module to find and return a set of songs matching contour
 	def performRecognition(self,contour):
 		contour = contour.replace('A','u').replace('S','r').replace('D','d')
+		songs = midiSong.findSong(contour)
+		if songs == None:
+			return songs
+		else:
+			print(len(songs))
+			quicksort.quicksort(songs)
+			songs.reverse()
+			return songs
 
-		return quicksort(midiSong.findSong(contour))
 	#Uses pygame's midi library to play the midi file associated with the passed Song object
 	def playSong(self, song):
 		songPath = "./" + song.fileLocation.replace('\\', '/')
