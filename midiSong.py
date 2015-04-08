@@ -35,8 +35,9 @@ def findSong(contour):
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
     if len(songsFound) > 0:
-        songsFound = quicksort.quicksort(songsFound)
+#        songsFound = quicksort.quicksort(songsFound)
         return songsFound
+    print("No song found")
     return None
     
 

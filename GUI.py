@@ -286,7 +286,7 @@ class MidiFind():
 		if (page == Page.success):
 			#Create a string for the artist / song to display
 			song = self.results[self.resultsindex]
-			songstring = song.artist + " - " + song.name + "Occurences:" + str(song.occ)
+			songstring = song.name + " - " + song.artist
 			#Create a surface for the results text
 			self.resultssurf = self.resultsfont.render(songstring, 1, ((114,114,114)))
 			self.screen.blit(self.resultssurf, (1024/2 - self.resultssurf.get_width()/2, 335))
