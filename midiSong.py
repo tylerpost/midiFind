@@ -33,17 +33,12 @@ def findSong(contour):
                 stringsFound = substringSearch(row[i], dfa)
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
-<<<<<<< HEAD
     if len(songsFound) > 0:
 #        songsFound = quicksort.quicksort(songsFound)
         return songsFound
     print("No song found")
     return None
-=======
-        if len(songsFound) > 0:
-            return songsFound
-        return None
->>>>>>> origin/master
+
     
 
 ##    for song in songsFound:

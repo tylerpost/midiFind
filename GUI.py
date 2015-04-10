@@ -9,9 +9,12 @@ class MidiFind():
 	#Uses the midiSong module to find and return a set of songs matching contour
 	def performRecognition(self,contour):
 		contour = contour.replace('A','u').replace('S','r').replace('D','d')
-		songs = midiSong.findSong(contour)
+		songs = midiSong.findSong(contour) 
 		if songs == None:
 			return songs
+
+		else if (len(songs) == 50):
+			print("Too many cooks")
 		else:
 			print(len(songs))
 			quicksort.quicksort(songs)
@@ -37,6 +40,12 @@ class MidiFind():
 		#Initialize the game
 		pygame.init()
 		#Initialize our clock
+
+		a = "ayy"
+		b = ["a"]
+		if a == b:
+			print("ay")
+
 		self.fpsClock = pygame.time.Clock()
 
 		#Create a screen for us to draw on
@@ -73,6 +82,10 @@ class MidiFind():
 		self.results = None
 		self.resultsindex = 0
 		self.resultsfont = pygame.font.Font("./Assets/Arial.ttf", 42)
+
+		#Failure stuff
+		self.failureType = False
+
 	def main(self):
 		#Game loop
 		while True:
@@ -204,7 +217,7 @@ class MidiFind():
 					pygame.mixer.music.stop()
 
 
-			pygame.display.update()
+			#pygame.display.update()
 
 	def redrawPage(self,page):
 		#Switch/case doesn't exist in Python so instead we'll use if / elif
