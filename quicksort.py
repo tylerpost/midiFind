@@ -26,7 +26,7 @@ def partition(a, lo, hi):
             i += 1
         while j >= i and a[j].occ >= pivot:
             j -= 1
-        if i >= j:
+        if j <= i:
             done = True
         else:
             a[i],a[j] = a[j],a[i] #exchange greater item with lesser item
