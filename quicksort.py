@@ -26,18 +26,18 @@ def partition(a, lo, hi):
             i += 1
         while j >= i and a[j].occ >= pivot:
             j -= 1
-        if j <= i:
+        if i >= j:
             done = True
         else:
             a[i],a[j] = a[j],a[i] #exchange greater item with lesser item
     a[lo],a[j] = a[j],a[lo] #put partitioning item in place
     return j #return index of partitioning item
 
-
-def main():
-    songs = [Song("","","",1),Song("","","",5),Song("","","",3),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1)]
-    quicksort(songs)
-    for s in songs:
-        print(s.occ)
-    print("Done")
-main()
+##
+##def main():
+##    songs = [Song("","","",1),Song("","","",5),Song("","","",3),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1)]
+##    quicksort(songs)
+##    for s in songs:
+##        print(s.occ)
+##    print("Done")
+##main()
