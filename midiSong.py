@@ -1,5 +1,5 @@
 import csv
-from substringSearch import substringSearch, makeDFA
+from DFA import *
 
 
 class Song():
@@ -27,14 +27,15 @@ def findSong(contour):
     songsFound = []
     with open("midiTracks.csv", newline = '',encoding = "ISO-8859-1") as file:
         contents = csv.reader(file)
-        dfa = makeDFA(contour)
+        dfa = DFA.DFA(contour)
         for row in contents:
             for i in range(3,len(row)):
-                stringsFound = substringSearch(row[i], dfa)
+                if songsFound == 50: #limits return list to 50 songs
+                    break
+                stringsFound = dfa.search(row[i])
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
     if len(songsFound) > 0:
-#        songsFound = quicksort.quicksort(songsFound)
         return songsFound
     print("No song found")
     return None
