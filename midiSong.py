@@ -30,8 +30,8 @@ def findSong(contour):
         dfa = DFA(contour)
         for row in contents:
             for i in range(3,len(row)):
-                if songsFound == 50: #limits return list to 50 songs
-                    break
+                if len(songsFound) == 50: #limits return list to 50 songs
+                    return songsFound
                 stringsFound = dfa.search(row[i])
                 if stringsFound > 0:
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))

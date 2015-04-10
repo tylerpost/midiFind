@@ -3,10 +3,10 @@ import random, sys
 sys.setrecursionlimit(100)
 from midiSong import Song
 
-def quicksort(array):
-    random.shuffle(array)
-    sort(array, 0, len(array)-1)
-    return array
+def quicksort(a):
+    random.shuffle(a)
+    sort(a, 0, len(a)-1)
+    return a
 
 def sort(a, lo, hi):
     if hi <= lo:
