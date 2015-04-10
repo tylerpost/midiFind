@@ -27,7 +27,7 @@ def findSong(contour):
     songsFound = []
     with open("midiTracks.csv", newline = '',encoding = "ISO-8859-1") as file:
         contents = csv.reader(file)
-        dfa = DFA.DFA(contour)
+        dfa = DFA(contour)
         for row in contents:
             for i in range(3,len(row)):
                 if songsFound == 50: #limits return list to 50 songs
@@ -41,10 +41,12 @@ def findSong(contour):
     return None
 
 def main():
-    songs = findSong("duuuuuuduuduuduuuudruud")
+    print("Begin")
+    songs = findSong("rurrrdrrurrdrurrrdud")
     for s in songs:
-        print(s.title)
+        print(s.name)
     print(len(songs))
+    
 main()
 
 #BARBIE GIRL
