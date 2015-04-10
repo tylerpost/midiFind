@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import pygame, sys, quicksort, midiSong
+=======
+import pygame, sys, substringSearch, quicksort, midiSong, stringSort
+>>>>>>> Stashed changes
 import pygame.font
 from pygame.locals import *
 from enum import Enum
@@ -12,14 +16,21 @@ class MidiFind():
 		songs = midiSong.findSong(contour) 
 		if songs == None:
 			return songs
-
 		elif (len(songs) == 50):
-			print("Too many cooks")
+			self.failureType = True
+			return None
 		else:
 			print(len(songs))
-			quicksort.quicksort(songs)
+			stringSort.stringSort(songs, self.sorttype)
 			songs.reverse()
 			return songs
+
+	#Sorts the songs using either artist or title sort
+	def sortSongs(songs, by):
+
+		stringsort.stringSort(songs, by)
+		return songs
+
 
 	#Uses pygame's midi library to play the midi file associated with the passed Song object
 	def playSong(self, song):
@@ -63,6 +74,7 @@ class MidiFind():
 		self.button1 = pygame.sprite.Sprite()
 		self.button2 = pygame.sprite.Sprite()
 		self.button3 = pygame.sprite.Sprite()
+		self.button4 = pygame.sprite.Sprite()
 
 		self.helptext = pygame.sprite.Sprite()
 
@@ -70,13 +82,14 @@ class MidiFind():
 		self.helpcontent = pygame.sprite.Group()
 
 		self.helppage = 1
-		self.buttons.add(self.button1, self.button2, self.button3)
+		self.buttons.add(self.button1, self.button2, self.button3, self.button4)
 		self.helpcontent.add(self.helptext)
 
 		#Input contour stuff
 		self.inputcontour = ""
 		self.contourfont = pygame.font.Font("./Assets/Arial.ttf", 42)
 		self.contourfont.set_italic(True)
+		self.sorttype = "occ"
 		
 		#Results stuff
 		self.results = None
@@ -190,6 +203,18 @@ class MidiFind():
 							#Failure
 							print("")
 
+					#BUTTON 4 CLICKED		
+					if pygame.Rect(self.button4.rect).collidepoint(mouse_pos):
+						#Cycle through the sort types
+						if (self.menuPage == Page.recognize):
+							if (self.sorttype == "artist"):
+								self.sorttype = "song"
+							elif (self.sorttype == "song"):
+								self.sorttype = "occ"
+							elif (self.sorttype == "occ"):
+								self.sorttype = "artist"
+							self.needsRedraw = True
+
 				#Key was pressed down, only check it if we're on Page.recognize
 
 				if event.type == pygame.KEYUP and self.menuPage == Page.recognize:
@@ -232,6 +257,7 @@ class MidiFind():
 			self.button1img = pygame.image.load('./assets/beginrecognition.png')
 			self.button2img = pygame.image.load('./assets/none.png')
 			self.button3img = pygame.image.load('./assets/exit.png')
+			self.button4img = pygame.image.load('./assets/none.png')
 
 
 		elif page == Page.recognize:
@@ -240,7 +266,15 @@ class MidiFind():
 			#Set the buttons
 			self.button1img = pygame.image.load('./assets/recognize.png')
 			self.button2img = pygame.image.load('./assets/help.png')
-			self.button3img = pygame.image.load('./assets/cancel.png')
+			self.button3img = pygame.image.load('./assets/back.png')
+			self.button4img = pygame.image.load('./assets/none.png')
+
+			if (self.sorttype == "artist"):
+				self.button4img = pygame.image.load('./assets/sortartist.png')
+			elif (self.sorttype == "song"):
+				self.button4img = pygame.image.load('./assets/sortsong.png')
+			elif (self.sorttype == "occ"):
+				self.button4img = pygame.image.load('./assets/sortrelev.png')
 
 		elif page == Page.success:
 
@@ -256,14 +290,20 @@ class MidiFind():
 				self.button1img = pygame.image.load('./assets/none.png')
 				self.button2img = pygame.image.load('./assets/nextguess.png')
 			self.button3img = pygame.image.load('./assets/exit.png')
+			self.button4img = pygame.image.load('./assets/none.png')
+
 
 		elif page == Page.failure:
-
-			backImage = pygame.image.load('./assets/failure.png')
+			if self.failureType == False:
+				backImage = pygame.image.load('./assets/failure.png')
+			else:
+				backImage = pygame.image.load('./assets/failureinput.png')
 
 			self.button1img = pygame.image.load('./assets/none.png')
 			self.button2img = pygame.image.load('./assets/startover.png')
 			self.button3img = pygame.image.load('./assets/none.png')
+			self.button4img = pygame.image.load('./assets/none.png')
+
 		
 		elif page == Page.help:
 
@@ -272,6 +312,7 @@ class MidiFind():
 			self.button1img = pygame.image.load('./assets/none.png')
 			self.button2img = pygame.image.load('./assets/next.png')
 			self.button3img = pygame.image.load('./assets/back.png')
+			self.button4img = pygame.image.load('./assets/none.png')
 
 			if (self.helppage == 3):
 				self.button2img = pygame.image.load('./assets/doneblue.png')
@@ -295,6 +336,12 @@ class MidiFind():
 		if (self.button3img != None):
 			self.button3.image = self.button3img
 			self.button3.rect = [1024/2 - self.button3img.get_width()/2, 655, self.button3img.get_width(), self.button3img.get_height()]
+		if (self.button4img != None):
+			self.button4.image = self.button4img
+			self.button4.rect = [1024/2 - self.button4img.get_width()/2, 466, self.button4img.get_width(), self.button4img.get_height()]
+
+
+
 
 		#Draw the help text if we're on the help screen
 
