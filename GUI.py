@@ -43,15 +43,20 @@ class MidiFind():
 		#Initiate the music module with some standard settings
 		pygame.mixer.init(freq, bitsize, channels, buffer)
 
-		pygame.mixer.music.load(songPath)
-		pygame.mixer.music.play()
+		try:
+			pygame.mixer.music.load(songPath)
+			print ("Music file %s loaded!" % songPath)
+			pygame.mixer.music.play()
+		except:
+			print ("File not found!" + songPath)
+        		
+
 
 
 	def __init__(self):
 		#Initialize the game
 		pygame.init()
 		#Initialize our clock
-
 		self.fpsClock = pygame.time.Clock()
 
 		#Create a screen for us to draw on
