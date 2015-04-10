@@ -63,5 +63,4 @@ class Tests(unittest.TestCase):
             self.assertTrue(songs2[s].occ <= songs2[s+1].occ)
 
         
-
 unittest.main()

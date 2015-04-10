@@ -1,4 +1,4 @@
-import pygame, sys, substringSearch, quicksort, midiSong
+import pygame, sys, quicksort, midiSong
 import pygame.font
 from pygame.locals import *
 from enum import Enum
