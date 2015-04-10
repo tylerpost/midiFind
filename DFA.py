@@ -1,7 +1,7 @@
-#Uses DFAs and the KMT algorithm
-#Still figuring out error-handling
-#Build DFA from pattern contour using alphabet {u/a,r,d}*
+#Performs substring search using DFAs and the KMT algorithm
+#Returns number of substring occurrences in string
 class DFA():
+    #Build transition states array from pattern/contour using alphabet {u/a,r,d}*
     def __init__(self, pat):
         self.M = len(pat)
         self.contour = pat
@@ -14,6 +14,7 @@ class DFA():
             self.delta[self.index(pat[j])][j] = j+1
             X = self.delta[self.index(pat[j])][X]
 
+    #Search for substring in txt. Returns number of occurrences of substring in text.
     def search(self, txt):
         N=len(txt)
         j = 0 #start state of txt in DFA
@@ -25,6 +26,7 @@ class DFA():
                 j = 0 #if substring is found, reset back to first state
         return occ
 
+    #Maps each character in the alphabet to an int that may be used as an array index.
     def index(self, char):
         if (char=='r'):
             return 0
@@ -35,17 +37,32 @@ class DFA():
         else:
             return None #GUI does not allow any other character input so no real error handling is required
 
-    def getContour(self): #returns contour/pattern
+    #Getters, for testing mostly
+    #Returns contour/pattern
+    #(not really used, but it could be helpful to know the pattern that is associated with the DFA)
+    def getContour(self): 
         return self.contour
 
+    #Returns array of transition states
     def getDelta(self): #returns array representing state transitions
         return self.delta
 
-    def getM(self): #returns length of dfa (aka index of final state)
+    #Returns length of dfa(index of final/accept state)
+    def getM(self):
         return self.M
 
-def main():
-    dfa  = DFA("rrududr")
-    print(dfa.search("rrududruuurrududrrurud"))
+    #No setters --> Immutable
 
-main()
+#basic testing
+##def main():
+##    d1  = DFA("rrududr")
+##    print("rrududr appears 2 times in rrududruuurrududrrurud")
+##    print(d1.search("rrududruuurrududrrurud"))
+##    d2 = DFA("r")
+##    print("r appears 10 times in rrrrrrrrrr")
+##    print(d2.search("rrrrrrrrrr"))
+##    d3 = DFA("urd")
+##    print("urd appears 0 times in uuuuuuuuuudrdruuuudddr")
+##    print(d3.search("uuuuuuuuuudrdruuuudddr"))
+##
+##main()
