@@ -13,7 +13,7 @@ class MidiFind():
 		if songs == None:
 			return songs
 
-		else if (len(songs) == 50):
+		elif (len(songs) == 50):
 			print("Too many cooks")
 		else:
 			print(len(songs))
