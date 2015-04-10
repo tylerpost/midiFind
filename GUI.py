@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-import pygame, sys, quicksort, midiSong
-=======
-import pygame, sys, substringSearch, quicksort, midiSong, stringSort
->>>>>>> Stashed changes
+import pygame, sys, quicksort, midiSong, stringSort
+
 import pygame.font
 from pygame.locals import *
 from enum import Enum
@@ -21,8 +18,11 @@ class MidiFind():
 			return None
 		else:
 			print(len(songs))
-			stringSort.stringSort(songs, self.sorttype)
-			songs.reverse()
+			if (self.sorttype == "occ"):
+				quicksort.quicksort(songs)
+				songs.reverse()
+			else:
+				stringSort.stringSort(songs, self.sorttype)
 			return songs
 
 	#Sorts the songs using either artist or title sort
@@ -51,11 +51,6 @@ class MidiFind():
 		#Initialize the game
 		pygame.init()
 		#Initialize our clock
-
-		a = "ayy"
-		b = ["a"]
-		if a == b:
-			print("ay")
 
 		self.fpsClock = pygame.time.Clock()
 
@@ -164,7 +159,7 @@ class MidiFind():
 							self.menuPage = Page.help
 							self.needsRedraw = True
 
-						elif (self.menuPage == Page.success):
+						elif (self.menuPage == Page.success and self.resultsindex < len(self.results) - 1):
 							print("Next")
 							#Stop the music
 							pygame.mixer.music.stop()
@@ -208,8 +203,8 @@ class MidiFind():
 						#Cycle through the sort types
 						if (self.menuPage == Page.recognize):
 							if (self.sorttype == "artist"):
-								self.sorttype = "song"
-							elif (self.sorttype == "song"):
+								self.sorttype = "name"
+							elif (self.sorttype == "name"):
 								self.sorttype = "occ"
 							elif (self.sorttype == "occ"):
 								self.sorttype = "artist"
@@ -271,7 +266,7 @@ class MidiFind():
 
 			if (self.sorttype == "artist"):
 				self.button4img = pygame.image.load('./assets/sortartist.png')
-			elif (self.sorttype == "song"):
+			elif (self.sorttype == "name"):
 				self.button4img = pygame.image.load('./assets/sortsong.png')
 			elif (self.sorttype == "occ"):
 				self.button4img = pygame.image.load('./assets/sortrelev.png')
