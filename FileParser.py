@@ -1,6 +1,7 @@
 ##MidiFind FileParser library
 ##Reads Midi tracks from database
 ##Creates a Melodic Contour for the song represented using Parson's Code
+##Mido library can be found at http://mido.readthedocs.org/en/latest/index.html
 
 import mido
 from mido import midifiles
@@ -50,7 +51,6 @@ def contour(midiFile, artist):
     print midiFile
     song = Song(name, artist, midiFile)
     print song.getName(), "\t", song.getArtist()
-    
     
     midiSong = mido.midifiles.MidiFile(midiFile)
 
@@ -123,10 +123,6 @@ def writeCSV(songList):
             
 
 
-
-def main():
-    songs = createSongList()
-    writeCSV(songs)
     
 
 
