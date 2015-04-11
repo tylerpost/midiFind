@@ -26,7 +26,7 @@ class DFA():
                 j = 0 #if substring is found, reset back to first state
         return occ
 
-    #Maps each character in the alphabet to an int that may be used as an array index.
+    #Internal method, maps each character in the alphabet to an int that may be used as an array index.
     def index(self, char):
         if (char=='r'):
             return 0

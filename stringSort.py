@@ -2,10 +2,12 @@
 #let -by- be either "title" or "artist"
 
 from midiSong import Song
-        
-def stringSort(array, by): 
-    quick3sort(array, 0, len(array)-1, 0, by)
 
+#Public method, sorts array a by Song attribute by     
+def stringSort(a, by): 
+    quick3sort(a, 0, len(a)-1, 0, by)
+
+#3-way quicksort of a from lo to hi, sorting by the char at index charIndex and by Song attribute by
 def quick3sort(a, lo, hi, charIndex, by):
     if (hi <= lo):
         return
@@ -31,12 +33,14 @@ def quick3sort(a, lo, hi, charIndex, by):
         quick3sort (a, lt, gt, charIndex + 1, by)
     quick3sort(a, gt+1, hi, charIndex, by)
 
+#Internal method, turns char into indexable int 
 def charAt(string, charIndex):
     if charIndex < len(string): 
-        return ord(string[charIndex].upper()) #turns char into comparable int, and compares letters as "upper" so that they're in alphabetical order, regardless of upper or lower case
+        return ord(string[charIndex].upper())#compares letters as "upper" so that they're in alphabetical order, regardless of upper or lower case
     else: #we've passed the end of the string
         return -1
 
+#basic testing
 ##def main():
 ##    songs = [Song("Hey","Hi","",0),Song("Hey","Homie","",0),Song("Hey","Dawg","",0),Song("Hey","Okay","",0),Song("Hey","duh","",0)]
 ##    stringSort(songs,"name")

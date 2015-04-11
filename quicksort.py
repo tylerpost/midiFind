@@ -1,13 +1,15 @@
-#sorts Song array by occurences --> uses Song.occ
+#Sorts Song array by occurences --> uses Song.occ
 import random, sys
 sys.setrecursionlimit(100)
 from midiSong import Song
-
+#Public method where a is a Song[]
+#Shuffles to avoid worst-case
 def quicksort(a):
     random.shuffle(a)
     sort(a, 0, len(a)-1)
     return a
 
+#Internal method, sorts a from lo to hi
 def sort(a, lo, hi):
     if hi <= lo:
         return
@@ -15,7 +17,8 @@ def sort(a, lo, hi):
         p = partition(a, lo, hi) #split array
         sort(a, lo, p-1) #recursively sort left half
         sort(a, p+1, hi) #recursively sort right half
-    
+
+#Internal method, partitions a from lo to hi
 def partition(a, lo, hi):
     pivot = a[lo].occ #take first item to be pivot
     i = lo+1 #start examining items after the first item
@@ -33,7 +36,7 @@ def partition(a, lo, hi):
     a[lo],a[j] = a[j],a[lo] #put partitioning item in place
     return j #return index of partitioning item
 
-##
+##basic testing
 ##def main():
 ##    songs = [Song("","","",1),Song("","","",5),Song("","","",3),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1),Song("","","",1)]
 ##    quicksort(songs)
