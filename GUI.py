@@ -14,7 +14,7 @@ class MidiFind():
 		if songs == None:
 			return songs
 		elif (len(songs) == 50):
-			self.failureType = True
+			self.failuretype = True
 			return None
 		else:
 			print(len(songs))
@@ -66,10 +66,10 @@ class MidiFind():
 		pygame.display.set_caption("MidiFind")
 
 		#Set our enum for the current menu page
-		self.menuPage = Page.main
+		self.menupage = Page.main
 
 		#Set a boolean to determine if we need a redraw
-		self.needsRedraw = True
+		self.needsredraw = True
 
 		self.button1 = pygame.sprite.Sprite()
 		self.button2 = pygame.sprite.Sprite()
@@ -97,16 +97,16 @@ class MidiFind():
 		self.resultsfont = pygame.font.Font("./Assets/Arial.ttf", 42)
 
 		#Failure stuff
-		self.failureType = False
+		self.failuretype = False
 
 	def main(self):
 		#Game loop
 		while True:
 			self.fpsClock.tick(60)
 
-			if self.needsRedraw:
-				self.redrawPage(self.menuPage)
-				self.needsRedraw = False
+			if self.needsredraw:
+				self.redrawPage(self.menupage)
+				self.needsredraw = False
 
 
 
@@ -125,13 +125,13 @@ class MidiFind():
 					#BUTTON 1 CLICKED
 					if pygame.Rect(self.button1.rect).collidepoint(mouse_pos):
 						
-						if (self.menuPage == Page.main):
-							self.menuPage = Page.recognize
+						if (self.menupage == Page.main):
+							self.menupage = Page.recognize
 							self.inputcontour = ""
-							self.needsRedraw = True
+							self.needsredraw = True
 
 
-						elif (self.menuPage == Page.recognize):
+						elif (self.menupage == Page.recognize):
 							#Perform recognition using the input contour
 							#Results are saved in an Artist array 
 							if (len(self.inputcontour) > 0):
@@ -139,85 +139,90 @@ class MidiFind():
 								#Check if the results isn't None, if it isnt, we found a match
 								if (self.results != None):
 									self.resultsindex = 0
-									self.menuPage = Page.success
+									self.menupage = Page.success
 								#Otherwise the search failed
 								else:
 									self.inputcontour = ""
-									self.menuPage = Page.failure
-								self.needsRedraw = True
-						elif (self.menuPage == Page.success):
+									self.menupage = Page.failure
+								self.needsredraw = True
+						elif (self.menupage == Page.success):
 							#Back to Main
 							pygame.mixer.music.stop()
-							self.menuPage = Page.main
-							self.needsRedraw = True
-						elif (self.menuPage == Page.failure):
+							self.menupage = Page.main
+							self.needsredraw = True
+						elif (self.menupage == Page.failure):
 							##Failure
-							print("")
+							print("Failure")
 
 					#BUTTON 2 CLICKED
 					if pygame.Rect(self.button2.rect).collidepoint(mouse_pos):
 
-						if (self.menuPage == Page.main):
+						if (self.menupage == Page.main):
 							##Options
 							print("")
-						elif (self.menuPage == Page.recognize):
-							self.menuPage = Page.help
-							self.needsRedraw = True
+						elif (self.menupage == Page.recognize):
+							self.menupage = Page.help
+							self.needsredraw = True
 
-						elif (self.menuPage == Page.success and self.resultsindex < len(self.results) - 1):
+						elif (self.menupage == Page.success and self.resultsindex < len(self.results) - 1):
 							print("Next")
 							#Stop the music
 							pygame.mixer.music.stop()
 							#Next was pressed, so increment the resultsindex
 							self.resultsindex += 1
-							self.menuPage = Page.success
-							self.needsRedraw = True
-						elif (self.menuPage == Page.failure):
-							self.menuPage = Page.recognize
-							self.needsRedraw = True
-						elif (self.menuPage == Page.help):
+							self.menupage = Page.success
+							self.needsredraw = True
+						elif (self.menupage == Page.failure):
+							self.menupage = Page.recognize
+							self.needsredraw = True
+						elif (self.menupage == Page.help):
 							if (self.helppage != 3):
 								self.helppage += 1
 							else:
 								self.helppage = 1
-								self.menuPage = Page.recognize
-							self.needsRedraw = True
+								self.menupage = Page.recognize
+							self.needsredraw = True
 
 					#BUTTON 3 CLICKED
 
 					if pygame.Rect(self.button3.rect).collidepoint(mouse_pos):
 						
-						if (self.menuPage == Page.main):
+						if (self.menupage == Page.main):
 							#Exit
 							pygame.quit()
 							sys.exit()							
-						elif (self.menuPage == Page.recognize):
+						elif (self.menupage == Page.recognize):
 							#Back to Main
-							self.menuPage = Page.main
-							self.needsRedraw = True
-						elif (self.menuPage == Page.success):
+							self.menupage = Page.main
+							self.needsredraw = True
+						elif (self.menupage == Page.success):
 							#Exit
 							pygame.quit()
 							sys.exit()	
-						elif (self.menuPage == Page.failure):
+						elif (self.menupage == Page.failure):
 							#Failure
 							print("")
+						elif (self.menupage == Page.help):
+							if (self.helppage != 1):
+								self.helppage -= 1
+							self.needsredraw = True
+
 
 					#BUTTON 4 CLICKED		
 					if pygame.Rect(self.button4.rect).collidepoint(mouse_pos):
 						#Cycle through the sort types
-						if (self.menuPage == Page.recognize):
+						if (self.menupage == Page.recognize):
 							if (self.sorttype == "artist"):
 								self.sorttype = "name"
 							elif (self.sorttype == "name"):
 								self.sorttype = "occ"
 							elif (self.sorttype == "occ"):
 								self.sorttype = "artist"
-							self.needsRedraw = True
+							self.needsredraw = True
 
 				#Key was pressed down, only check it if we're on Page.recognize
 
-				if event.type == pygame.KEYUP and self.menuPage == Page.recognize:
+				if event.type == pygame.KEYUP and self.menupage == Page.recognize:
 					#A 
 					if (event.key == 97):
 						self.inputcontour = self.inputcontour + "A"
@@ -231,13 +236,13 @@ class MidiFind():
 					if (event.key == 8):
 						self.inputcontour = self.inputcontour[:-1]
 
-					self.needsRedraw = True
+					self.needsredraw = True
 
 					#97 = A
 					#115 = S
 					#100 = D
 
-				if event.type == pygame.KEYUP and  event.key == K_SPACE and self.menuPage == Page.success:
+				if event.type == pygame.KEYUP and  event.key == K_SPACE and self.menupage == Page.success:
 					#Stop the music if space is pressed
 					pygame.mixer.music.stop()
 
@@ -252,7 +257,7 @@ class MidiFind():
 		#Main
 		if page == Page.main:
 			#Set the background for our main page
-			backImage = pygame.image.load('./assets/main.png')
+			backimage = pygame.image.load('./assets/main.png')
 			#Set our buttons
 			self.button1img = pygame.image.load('./assets/beginrecognition.png')
 			self.button2img = pygame.image.load('./assets/none.png')
@@ -262,7 +267,7 @@ class MidiFind():
 
 		elif page == Page.recognize:
 			#Set the background for our recognize page
-			backImage = pygame.image.load('./assets/recognition.png')
+			backimage = pygame.image.load('./assets/recognition.png')
 			#Set the buttons
 			self.button1img = pygame.image.load('./assets/recognize.png')
 			self.button2img = pygame.image.load('./assets/help.png')
@@ -278,7 +283,7 @@ class MidiFind():
 
 		elif page == Page.success:
 
-			backImage = pygame.image.load('./assets/success.png')
+			backimage = pygame.image.load('./assets/success.png')
 			#If we still have guesses to go, set button1 to be blank and button2 to be Next
 			if (self.resultsindex == len(self.results)-1):
 				print(len(self.results))
@@ -294,10 +299,10 @@ class MidiFind():
 
 
 		elif page == Page.failure:
-			if self.failureType == False:
-				backImage = pygame.image.load('./assets/failure.png')
+			if self.failuretype == False:
+				backimage = pygame.image.load('./assets/failure.png')
 			else:
-				backImage = pygame.image.load('./assets/failureinput.png')
+				backimage = pygame.image.load('./assets/failureinput.png')
 
 			self.button1img = pygame.image.load('./assets/none.png')
 			self.button2img = pygame.image.load('./assets/startover.png')
@@ -307,7 +312,7 @@ class MidiFind():
 		
 		elif page == Page.help:
 
-			backImage = pygame.image.load('./assets/helpback.png')
+			backimage = pygame.image.load('./assets/helpback.png')
 
 			self.button1img = pygame.image.load('./assets/none.png')
 			self.button2img = pygame.image.load('./assets/next.png')
@@ -317,6 +322,8 @@ class MidiFind():
 			if (self.helppage == 3):
 				self.button2img = pygame.image.load('./assets/doneblue.png')
 
+			if (self.helppage == 1):
+				self.button3img = pygame.image.load('./assets/none.png')
 
 			self.helptext.image = pygame.image.load('./assets/helptext'+str(self.helppage)+'.png')
 			print('./assets/helptext'+str(self.helppage)+'.png')
@@ -325,7 +332,7 @@ class MidiFind():
 
 
 		#Blit the background onto our screen
-		self.screen.blit(backImage, (0,0))
+		self.screen.blit(backimage, (0,0))
 		#Set the image and rect for each of our buttons
 		if (self.button1img != None):
 			self.button1.image = self.button1img
