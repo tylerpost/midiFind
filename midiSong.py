@@ -1,7 +1,14 @@
+##Opens and reads CSV database
+##midiTracks.csv must be inside local folder
+##Returns a list of Songs matching contours
+
 import csv
 from DFA import *
 
 
+'''
+Construct song object that holds attributes required to identify it
+'''
 class Song():
     def __init__(self,  artist,name,fileLoc, occurances):
         self.artist = artist
@@ -22,7 +29,11 @@ class Song():
             return self.occ
 
 
-
+'''
+Opens the database midiTracks.csv and calls DFA.search on every track in the csv
+If a track has been found, create a Song instance
+Once the contour has been passed, or too many results are found, return the list of matching Songs
+'''
 def findSong(contour):
     songsFound = []
     with open("midiTracks.csv", newline = '',encoding = "ISO-8859-1") as file:
@@ -37,26 +48,13 @@ def findSong(contour):
                     songsFound.append(Song(row[0], row[1], row[2], stringsFound))
     if len(songsFound) > 0:
         return songsFound
-    print("No song found")
     return None
 
-##def main():
-##    print("Begin")
-##    songs = findSong("rurrrdrrurrdrurrrdud")
-##    for s in songs:
-##        print(s.name)
-##    print(len(songs))
-##    
-##main()
 
-#BARBIE GIRL
-#rurrrdrrurrdrurrrdudurrdrrurrdudurrdrurrdrurrdudrrduuuuuuduuduuduuuudruuduuduuuudruududuuuuuduuduuduuuuduuduuduuuudruuduuduuuudduududuuuuuduuuduuduuuuduuduuduuuuuduuduuduuuudduududuuuuuduuduuduuuuduududuuuuuduuduuduuuuduuuduuduuuuuuduuuuduuuduuuuduududduuuudruuduudduudruurdduuuuuduududduuuduududduuuudruududduuudduurdduuuuuduududduuuduududduuuuuduududduuudduudduuuuuduududduuuduurdduuuuuduududduuuduuurdduuuuuuduuuduudduuuuuddddurrduuuurdurrduuudurduuudrduuuurdurrduuurrdurrduuuurdurduuurrdurrduuuurdurduuurrduuudrduuururdduururduuudrurduuuuuuduuduuduuuudruuduuduuuudruududuuuuuduuduuduuuuduuduuduuuudruuduuduuuudduududuuuuuduuuduuduuuuduuduuduuuuuduuduuduuuudduududuuuuuduuduuduuuuduududuuuuuduuduuduuuuduuuduuduuuuuuduuuuduuuduuuuduududduuuudruuduudduudruurdduuuuuduududduuuduududduuuudruududduuudduurdduuuuuduududduuuduududduuuuuduududduuudduudduuuuuduududduuuduurdduuuuuduududduuuduuurdduuuuuuduuuduudduuuuuuduuduuduuudruuduuduuuudruududuuuuduuduuduuuuduuduuduuudruuduuduuuudduududuuuuduuuduuduuuuduuduuduuuuduuduuduuuudduududuuuuduuduuduuuuduududuuuuduuduuduuuuduuuduuduuuuuduuuuduuuduuuuduududduuudruuduudduudruurdduuuuduududduuuduududduuudruududduuudduurdduuuuduududduuuduududduuuuduududduuudduudduuuuduududduuuduurdduuuuduududduuuduuurdduuuuuduuuduudduuuuuddudduuudrduuuurdurrduuurrdurrduuuurdurrduuurrdurrduuuurdurrduuurrdurrduuuurdurrduuurrdurrduuuurdurrduuurrdurrduuuurdurrduuurrdurduuuurdurrduuurrdurrduuuurdurrduuudurduuudrduuuurdurrduuurrdurrduuuurdurduuurrdurrduuuurdurduuurrduuudrdururdduururdudrurduuuururdururdrurdrdurdururdururdrurdududduududuururdururdrurdrdurdururduurdrdurdrruurduduudduduuuuuuduuduuduuuudruuduuduuuudruududuuuuuduuduuduuuuduuduuduuuudruuduuduuuudduududuuuuuduuuduuduuuuduuduuduuuuuduuduuduuuudduududuuuuuduuduuduuuuduududuuuuuduuduuduuuuduuuduuduuuuuuduuuuduuuduuuuduududduuuudruuduudduudruurdduuuuuduududduuuduududduuuudruududduuudduurdduuuuuduududduuuduududduuuuuduududduuudduudduuuuuduududduuuduurdduuuuuduududduuuduuurdduuuuuuduuuduudduuuuuuduuduuduuuudruuduuduuuudruududuuuuuduuduuduuuuduuduuduuuudruuduuduuuudduududuuuuuduuuduuduuuuduuduuduuuuuduuduuduuuudduududuuuuuduuduuduuuuduududuuuuuduuduuduuuuduuuduuduuuuuuduuuuduuuduuuuduududduuuudruuduudduudruurdduuuuuduududduuuduududduuuudruududduuudduurdduuuuuduududduuuduududduuuuuduududduuudduudduuuuuduududduuuduurdduuuuuduududduuuduuurdduuuuuuduuuduudduuuuuuduuduuduuudruuduuduuuudruududuuuuduuduuduuuuduuduuduuudruuduuduuuudduududuuuuduuuduuduuuuduuduuduuuuduuduuduuuudduududuuuuduuduuduuuuduududuuuuduuduuduuuuduuuduuduuuuuduuuuduuuduuuuduududduuudruuduudduudruurdduuuuduududduuuduududduuudruududduuudduurdduuuuduududduuuduududduuuuduududduuudduudduuuuduududduuuduurdduuuuduududduuuduuurdduuuuuduuuduudduuduu
-
-##    for song in songsFound:
-##        print(song.name, "\t", song.artist, "\t", song.occ)
+##Some tracks that can be found inside the database with the following contours:
+#BARBIE GIRL rurrrdrrurrdrurrrd
 #Blind Melon - No Rain - SSSSSAAADDDSS
 #Green Day - Good Riddance - SSAADDSADDA
 #Blink - Adams Song - AADDAADDAAADD
 #Beck - Jackass - DASADDDASADADSSADDDS
-#durudddurud udurudddurudurrdrrruurduuudddudduudrdruudddduurduruddduudrudurudddudurrdrruurduuddddudduudrdruurddddudurudddurududurudddurudurrdrrruurduuudddudduudrdruudddd
-#DASADDDASAD ADASADDDA
+
