@@ -273,7 +273,7 @@ class MidiFind():
 			self.button2img = pygame.image.load('./assets/help.png')
 			self.button3img = pygame.image.load('./assets/back.png')
 			self.button4img = pygame.image.load('./assets/none.png')
-
+			#Set sort by button image depending on the current sorttype
 			if (self.sorttype == "artist"):
 				self.button4img = pygame.image.load('./assets/sortartist.png')
 			elif (self.sorttype == "name"):
@@ -318,15 +318,15 @@ class MidiFind():
 			self.button2img = pygame.image.load('./assets/next.png')
 			self.button3img = pygame.image.load('./assets/back.png')
 			self.button4img = pygame.image.load('./assets/none.png')
-
+			#If we are on the last page, display the done button
 			if (self.helppage == 3):
 				self.button2img = pygame.image.load('./assets/doneblue.png')
-
+			#If we are on the first page, don't display a back button
 			if (self.helppage == 1):
 				self.button3img = pygame.image.load('./assets/none.png')
-
+			#Set the helptext image based on the currently selected helppage
 			self.helptext.image = pygame.image.load('./assets/helptext'+str(self.helppage)+'.png')
-			print('./assets/helptext'+str(self.helppage)+'.png')
+			#Set a positino for the helptext
 			self.helptext.rect = [1024/2 - self.helptext.image.get_width()/2, 238, self.helptext.image.get_width(), self.helptext.image.get_height()]
 
 
