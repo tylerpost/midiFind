@@ -17,7 +17,8 @@ In order to avoid installing external libraries and dependencies, an executable 
 
 ###Information
 MidiFind was created with Python.  Pygame and Mido were two external libraries used for this application.  MidiFind constructs a database of contours using the mido library to parse information about each note, which is searched upon run-time. Various algorithms implemented included 
-+Knuth-Morris-Pratt string search
-+QuickSort
-+3-way partitioned QuickSort
-It should be noted if /\*.mid tracks are found under MidiFind/Midi Files//\* they will play if a positive match has been found. Due to size constraints, all but two tracks have been left out of the application.
++ Knuth-Morris-Pratt string search
++ QuickSort
++ 3-way partitioned QuickSort
+
+It should be noted if any midi tracks are found under MidiFind/Midi Files/\* they will play if a positive match has been found. Due to size constraints, all but two tracks have been left out of the application.
