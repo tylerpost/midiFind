@@ -11,7 +11,7 @@ A musical contour is a means of simplifying the melody of a song by expressing e
 The contour here can be read as RUDUDDRUDUD. For simplicity, a lower note will be entered using the (A) key, a repeated note using (S), and a higher note by using (D). This three character string will be matched against a database of contours created by MidiFind and any matching songs will be displayed. 
 
 ###How do I run MidiFind?
-In order to avoid installing external libraries and dependencies, an executable can be found in the MidiFind exe folder.  Launch GUI.exe to get started!  Some example contours that can be found in the database include "rrurdrdurrdurr" or "dsaadsaaasddaddd".
+In order to avoid installing external libraries and dependencies, an executable can be found in the MidiFind exe folder.  Launch GUI.exe to get started!  Some example contours that can be found in the database include ***rrurdrdurrdurr*** or ***dsaadsaaasddaddd***.
 
 ------------------------------------------------------------
 
