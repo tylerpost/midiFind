@@ -34,7 +34,7 @@ class MidiFind():
 
 	#Uses pygame's midi library to play the midi file associated with the passed Song object
 	def playSong(self, song):
-		songPath = "./" + song.fileLocation.replace('\\', '/')
+		songPath = ".\\" + song.fileLocation
 
 		freq = 44100    # audio CD quality
 		bitsize = -16   # unsigned 16 bit
